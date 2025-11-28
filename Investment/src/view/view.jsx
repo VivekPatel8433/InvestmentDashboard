@@ -1,0 +1,11 @@
+// import React from "react";
+// import SignUp from "../components/signup";
+
+
+// function View() {
+//     <>
+    
+//     </>
+// }
+
+// export default View;
