@@ -34,16 +34,14 @@ function SignUp() {
         setMessage('Network error');
       }
   }
-
   };
-
   return (
    <div className="relative min-h-screen flex items-center justify-center" id="Signup">
        <video
-    autoPlay
-    muted
-    loop
-    className="absolute w-full h-full object-cover"
+        autoPlay
+        muted
+        loop
+        className="absolute w-full h-full object-cover"
   >
     <source src={videoBg} type="video/mp4" />
     Your browser does not support the video tag.
