@@ -3,8 +3,39 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import videoBg1 from '../assets/14003675-uhd_3840_2160_60fps.mp4';
+import { useState } from "react";
+import axios  from "axios";
 
 function Login() {
+  const [email, setEmail] = useState(['']);
+  const [password, setPassword] = useState(['']); 
+  const [message, setMessage] = useState(['']);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/v1/auth/login',
+        {email, password},
+
+      )
+        setMessage(response.data.message), 
+        setEmail(''),
+        setPassword(''),
+        window.location.href = "/dashboard"
+        
+      }  catch(error) {
+        console.log("error", error); 
+         if (error.response) {
+        setMessage(error.response.data.error); // Backend error
+      } else {
+        setMessage('Network error');
+      }
+    }
+  }
+
   return (
    <div className="relative min-h-screen flex items-center justify-center">
        <video
@@ -24,14 +55,14 @@ function Login() {
             </div>
             <div>
               <h2 className="text-2xl text-gray-800 flex justify-center">Welcome Back</h2>
-              <form className="w-full space-y-4 mt-4">
+              <form onSubmit={handleSubmit}  className="w-full space-y-4 mt-4">
                 <div>
                   <label className="block text-lg text-gray-700 mb-1">Email: </label>
-                  <input type="text" className="w-full px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7879ff] focus:outline-none" placeholder="Enter Your Email"></input>
+                  <input type="text" value={email} onChange={(e) => {setEmail(e.target.value)}} className="w-full px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7879ff] focus:outline-none" placeholder="Enter Your Email"></input>
                 </div>
                  <div>
                   <label className="block text-lg text-gray-700 mb-1">Password: </label>
-                  <input type="text" className="w-full px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7879ff] focus:outline-none" placeholder="Enter Your Password"></input>
+                  <input type="text" value={password} onChange={(e) => {setPassword(e.target.value)}} className="w-full px-4 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7879ff] focus:outline-none" placeholder="Enter Your Password"></input>
                 </div>
                 <div>
                     <p className="text-sm text-gray-600">
@@ -53,6 +84,7 @@ function Login() {
                 </p>
                  </div>
               </form>
+               {message && <p className="mt-2 text-red-500">{message}</p>}
             </div>
             
       </div>

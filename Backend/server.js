@@ -14,7 +14,6 @@ app.use(express.static('public'));             // Serve static files, like index
 app.use('/api/v1/auth', authRoutes);           // Mount authentication routes
 
 // Start the server
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
