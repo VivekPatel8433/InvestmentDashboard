@@ -17,14 +17,16 @@ function Login() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/v1/auth/login',
+        'http://localhost:5000/api/v1/auth/login', 
         {email, password},
-
+        { withCredentials: true } // For Cookies
       )
+
         setMessage(response.data.message), 
         setEmail(''),
         setPassword(''),
         window.location.href = "/dashboard"
+        
         
       }  catch(error) {
         console.log("error", error); 

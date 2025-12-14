@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { addUser } from "../models/userModel.js"
 import { findUser } from "../models/userModel.js";
+import jwt from "jsonwebtoken"
 
 // Register User
 export const registerUserController = async (req, res) => {
@@ -35,7 +36,6 @@ export const loginUserController = async (req, res) => {
     // 1. Find user by email
     const result = await findUser(email);  // findUser should search by email ONLY
     const user = result.recordset[0];
-    const rowsAffected = result.rowsAffected[0];
 
     // If user not found
     if (!user) {
@@ -48,12 +48,27 @@ export const loginUserController = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+    const token = jwt.sign(
+      {userId: user.id, email: user.email}, 
+      process.env.JWT_SECRET, 
+      {expiresIn: "7d"}
+    )
+
+    res.cookie("refreshToken", token, {
+      httpOnly: true,
+      secure: false, // Set true when deployed to work with https, set false for development to be displayed on http
+      sameSite: "lax", // strict
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    })
 
     // 3. Login success
     res.status(200).json({
       message: "Login Successful",
-      user,
-      rowsAffected
+      user:{
+         id: user.id,
+        email: user.email,
+        name: user.name
+      }
     });
 
   } catch (err) {
