@@ -1,15 +1,17 @@
-import React from "react";
+import React, { use } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { Link, replace } from "react-router-dom";
 import { useState } from "react"
 import  axios  from "axios";
 import videoBg from '../assets/1797251-uhd_3840_2160_24fps.mp4';
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent Page Reloading
@@ -19,12 +21,13 @@ function SignUp() {
     const response = await axios.post(
       'http://localhost:5000/api/v1/auth/register',
       { email, password }
+
     );
 
     setMessage(response.data.message);
     setEmail('');
     setPassword('');
-    window.location.href = "./login"
+    navigate("./login", {replace: true}); // Replace true prevents the user from going back to signup page
 
   } catch(error) {
     console.log("error", error)

@@ -13,7 +13,6 @@ export const registerUserController = async (req, res) => {
         if (!email || !password) {
          return res.status(400).json({ message: 'All fields are required' });
         }
-
          // Hash Password
          const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -67,12 +66,11 @@ export const loginUserController = async (req, res) => {
       user:{
          id: user.id,
         email: user.email,
-        name: user.name
       }
     });
 
   } catch (err) {
-    console.error(err);
+    console.error(err); 
     res.status(500).json({ message: "Server error" });
   }
 };

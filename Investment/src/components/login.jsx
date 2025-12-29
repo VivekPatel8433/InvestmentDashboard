@@ -1,16 +1,18 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import videoBg1 from '../assets/14003675-uhd_3840_2160_60fps.mp4';
 import { useState } from "react";
 import axios  from "axios";
+import { Navigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState(['']);
   const [password, setPassword] = useState(['']); 
   const [message, setMessage] = useState(['']);
-  
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -25,8 +27,7 @@ function Login() {
         setMessage(response.data.message), 
         setEmail(''),
         setPassword(''),
-        window.location.href = "/dashboard"
-        
+        navigate("/dashboard", {replace: true});
         
       }  catch(error) {
         console.log("error", error); 

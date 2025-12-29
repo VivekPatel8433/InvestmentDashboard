@@ -1,11 +1,7 @@
 /*This file:
-
 auto-attaches access token
-
 auto-refreshes on 401
-
 retries the request */
-
 
 import axios from "axios";
 
