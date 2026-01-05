@@ -5,8 +5,8 @@ export const addUser = async ({ email, password }) => {
   const pool = await poolPromise;
 
   const result = await pool.request()
-    .input("email", sql.VarChar, email)
-    .input("password", sql.VarChar, password)
+    .input("email", sql.VarChar(100), email)
+    .input("password", sql.VarChar(100), password)
     .query(`
       INSERT INTO Users (email, password)
       OUTPUT INSERTED.id, INSERTED.email
