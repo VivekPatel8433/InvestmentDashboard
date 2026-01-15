@@ -4,6 +4,7 @@ import SignUp from "./components/signup";
 import Login from "./components/login";
 import axios from "axios";
 import { setAccessToken } from "./api/apiClient";
+import Dashboard from "./components/dashboard";
 
 import "./App.css";
 
@@ -34,6 +35,7 @@ function App() {
     <Routes>
       <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
